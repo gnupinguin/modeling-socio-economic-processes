@@ -68,7 +68,6 @@ shareNewbornMale = 1 - shareNewbornFemale;
     
 for year = startYear:1:lastYear
     population = L*population;
-    population(1) = population(1) + sum(population(1:maxAge+1) .* ratioFertility);
     sprintf('Population %d: %f\n',year, sum(population))
 end
 %for example:
