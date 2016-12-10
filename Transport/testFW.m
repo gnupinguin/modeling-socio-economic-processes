@@ -9,4 +9,4 @@ b = [8 12]
 A = A;
 b = b;
 eps = 0.1;
-FrankWoolf(f, [x1 x2], A, b, [], [],[0 0], eps)
+FrankWoolf(f, [x1 x2], A, b, [], [],[10 0], eps)

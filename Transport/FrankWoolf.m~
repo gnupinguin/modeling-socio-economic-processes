@@ -1,18 +1,14 @@
 %
+%
 %Frank-Woolf method
 %
 %f - symbolic function. For example f = x1 +3*x2
 %vars - symbolic variables(syms) for f
-%
 %A - nequality constraints matrix 
-%A * x <= b
+%Ax<=b
 %
-%Aeq - equality constraints matrix
-%Aeq * x == beq
 %
-%start_x - start point 
-%
-%eps - accuracy of calculation
+%Aeq * x = beq
 %
 function res = FrankWoolf(f, vars, A, b, Aeq, beq, start_x, eps)
 syms l;
