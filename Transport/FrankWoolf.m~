@@ -1,14 +1,18 @@
 %
-%
 %Frank-Woolf method
 %
 %f - symbolic function. For example f = x1 +3*x2
 %vars - symbolic variables(syms) for f
+%
 %A - nequality constraints matrix 
-%Ax<=b
+%A * x <= b
 %
+%Aeq - equality constraints matrix
+%Aeq * x == beq
 %
-%Aeq * x = beq
+%start_x - start point 
+%
+%eps - accuracy of calculation
 %
 function res = FrankWoolf(f, vars, A, b, Aeq, beq, start_x, eps)
 syms l;
@@ -16,8 +20,8 @@ grad = gradient(f, vars);
 lb = zeros(length(vars),1);%left bound for vars: 0<=Xi
 x = start_x;
 while true
-    point_grad = double(subs(grad, vars, x))'
-    [z, fval] = linprog(-point_grad, A, b, Aeq, beq, lb, []);
+    point_grad = double(subs(grad, vars, x))';
+    [z, fval] = linprog(point_grad, A, b, Aeq, beq, lb, []);
     z = z';
     
     %find step of the calculation
@@ -30,13 +34,13 @@ while true
         lambda = rand();
     end
     
-    new_x = x + lambda*(z - x);
+    new_x = double(x + lambda*(z - x));
     
-    if norm(new_x -x) <= eps
+    if double(abs((subs(f, vars, new_x) - point_grad * new_x') / (point_grad * new_x'))) <= eps
         x = new_x;
         break;
     end
-    x = new_x;
+    x = double(new_x)
 end
 res = double(x);
 end

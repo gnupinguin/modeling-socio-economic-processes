@@ -19,9 +19,10 @@ syms l;
 grad = gradient(f, vars);
 lb = zeros(length(vars),1);%left bound for vars: 0<=Xi
 x = start_x;
+LBD = 0;
 while true
-    point_grad = double(subs(grad, vars, x))'
-    [z, fval] = linprog(-point_grad, A, b, Aeq, beq, lb, []);
+    point_grad = double(subs(grad, vars, x))';
+    [z, fval] = linprog(point_grad, A, b, Aeq, beq, lb, []);
     z = z';
     
     %find step of the calculation
@@ -34,13 +35,13 @@ while true
         lambda = rand();
     end
     
-    new_x = x + lambda*(z - x);
-    
-    if norm(new_x -x) <= eps
+    new_x = double(x + lambda*(z - x));
+    LBD = max([LBD, point_grad * new_x']);
+     if double((subs(f, vars, new_x) - LBD) / LBD) <= eps
         x = new_x;
         break;
     end
-    x = new_x;
+    x = double(new_x)
 end
 res = double(x);
 end
