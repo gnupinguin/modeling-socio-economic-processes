@@ -41,7 +41,7 @@ while true
         x = new_x;
         break;
     end
-    x = double(new_x)
+    x = new_x
 end
-res = double(x);
+res = x;
 end
