@@ -7,8 +7,8 @@ function res = TransportAnalitic(f, vars, F)
 a = zeros(1, length(vars));
 b = zeros(1, length(vars));
 for i = 1:length(vars)
-    a(i) = double(f(i) - diff(f(i)))
-    b(i) = diff( f(i) ) ;
+    a(i) = double(expand(f(i) - diff(f(i))*vars(i) ));
+    b(i) = double(diff( f(i) )) ;
 end
 % res = zeros(1, length(vars));
 % 
@@ -30,13 +30,13 @@ end
 new_a = a(1:k);
 new_b= b(1:k);
 
-w = ( (F + sum(new_a ./ new_b)) / (sum(1./new_b)) ) / new_b(i) - new_a(i)/new_b(i);
+w = (F + sum(new_a./new_b))/sum(1./new_b);
 
 
 
 res = zeros(1,length(a));
 for i=1:k
-    res(i) = 1/b(i) *w - new_a(i)/new_b(i);
+    res(i) = 1/new_b(i) *w - new_a(i)/new_b(i);
 end
 for i=k+1:length(a)
     res(i) = 0;

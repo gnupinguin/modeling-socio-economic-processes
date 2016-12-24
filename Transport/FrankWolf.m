@@ -36,18 +36,19 @@ while true
     end
     
     new_x = double(x + lambda*(z - x));
-    LBD = max([LBD, point_grad * new_x']);
-     if double((subs(f, vars, new_x) - LBD) / LBD) <= eps
-        x = new_x;
-        break;
-     end
-end
-% if double(norm(double(x) - double(new_x))) <= eps
+%     LBD = max([LBD, point_grad * new_x']);
+%      if double((subs(f, vars, new_x) - LBD) / LBD) <= eps
 %         x = new_x;
 %         break;
-%     end
-%     x = new_x
+%      end
 % end
+if double(norm(double(x) - double(new_x))) <= eps
+        x = new_x;
+        break;
+    end
+    x = new_x
+end
 disp('Frank Woolf method: ')
+
 res = x
 end

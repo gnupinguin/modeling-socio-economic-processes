@@ -40,15 +40,7 @@ for i = 1:(length(a)-1)
     end
 end
 
-% for i=1:length(a)-1
-%     if (a(i) > a(i+1))
-%         j = i;
-%         while)
-%     end
-func
-vars
-
-
 disp('Analitic method: ')
-TransportAnalitic([f1 f2 f3], vars, beq)
+disp(vars)
+disp(TransportAnalitic(func, vars, beq))
 
