@@ -10,11 +10,11 @@
 %Aeq - equality constraints matrix
 %Aeq * x == beq
 %
-%start_x - start point 
+%start_x - start point; sum(start_x) = beq for quadratical func
 %
 %eps - accuracy of calculation
 %
-function res = FrankWoolf(f, vars, A, b, Aeq, beq, start_x, eps)
+function res = FrankWolf(f, vars, A, b, Aeq, beq, start_x, eps)
 syms l;
 grad = gradient(f, vars);
 lb = zeros(length(vars),1);%left bound for vars: 0<=Xi
@@ -32,16 +32,21 @@ while true
     lambda = min( solve(df_l == 0, l) );
     
     if lambda > 1 || lambda < 0
-        lambda = rand();
+         lambda = 1/2; %rand();
     end
     
     new_x = double(x + lambda*(z - x));
-    LBD = max([LBD, point_grad * new_x']);
-     if double((subs(f, vars, new_x) - LBD) / LBD) <= eps
+%     LBD = max([LBD, point_grad * new_x']);
+%      if double((subs(f, vars, new_x) - LBD) / LBD) <= eps
+%         x = new_x;
+%         break;
+%     end
+if double(norm(double(x) - double(new_x))) <= eps
         x = new_x;
         break;
     end
     x = new_x
 end
-res = x;
+disp('Frank Woolf method: ')
+res = x
 end
